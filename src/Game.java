@@ -9,6 +9,7 @@
  * done with hsa2 graphics
 /*/
 
+import Precomputation.Lambda;
 import hsa2.GraphicsConsole;
 
 public class Game {
@@ -19,6 +20,6 @@ public class Game {
 	GraphicsConsole gc;
 
 	Game() {
-		
+		Lambda myLambda = (double x) -> x + 1;
 	}
 }

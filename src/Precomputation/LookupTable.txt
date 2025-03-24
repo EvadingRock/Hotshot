@@ -1,0 +1,69 @@
+package Precomputation;
+/*
+ * LookupTables.java
+ * by Caden
+ * 
+ * file started: Monday, March 24, 2025
+ * 
+ * for precomputation
+/*/
+
+public class LookupTable {
+	// precomp size is the amount of values in the precomp array
+	// the more values, the higher the precision
+	// but, the longer precomputation takes
+	private int precompSize;
+	private double start;   // range of (start, end] precomp values
+	private double[] precompArray;
+
+	// scale is the value that maps a value to an array index
+	private double scale;
+
+	/**
+	 * contructor for making lookuptable from function
+	 * below, 'x' is the value to precompute
+	 * 
+	 * @param start		double starting value (inclusive) for x
+	 * @param end		double ending value (non-inclusive) for x
+	 * @param size		int # of values to precompute
+	 * @param lamb		the function to evaluate x at
+	 */
+	LookupTable(double start, double end, int size, Lambda lamb) {
+		precompSize = size;
+		this.start = start;
+
+		precompArray = new double[precompSize];
+		scale = size / (end - start);
+
+		// compute precompSize # of values between start and end
+		double change = (end - start) / size;
+		double x = start;
+		for (int i = 0; i < precompArray.length; i++) {
+			precompArray[i] = lamb.fun(x);
+			x += change;
+		}
+	}
+
+	/**
+	 * constructor for making lookup table from prexisting values
+	 * 
+	 * @param start			double starting value (inclusive) for x
+	 * @param end			double ending value (non-inclusive) for x
+	 * @param precompArray	the precomputed array
+	 */
+	LookupTable(double start, double end, double[] precompArray) {
+		this.start = start;
+		this.precompArray = precompArray;
+
+		scale = precompArray.length / (end - start);
+	}
+
+	/**
+	 * get the value of the function at x
+	 * @param x		double to (appoximately) evaluate
+	 * @return		value
+	 */
+	public double get(double x) {
+		return precompArray[(int) ((x - start) * scale)];
+	}
+}
