@@ -5,18 +5,27 @@ package Precomputation;
  * 
  * file started: Monday, March 24, 2025
  * 
- * file for precomputed functions
+ * file to help for precomputed functions
 /*/
 
 public class Precomputed {
-	static double[] lTsin, lTcos, lTtan, lTcsc, lTsec, lTcot;
 	static int size = 1000;
+	static double[] lTsin, lTcos, lTtan, lTcsc, lTsec, lTcot;
 	private static int qSize = size / 4;
 
 	static {
 		// trig precomputation
-		double change = (2 * Math.PI) / qSize;
+		double change = (2 * Math.PI) / size;
 		double x = 0;
+
+		lTsin = new double[size];
+		lTcos = new double[size];
+		lTtan = new double[size];
+		lTcsc = new double[size];
+		lTsec = new double[size];
+		lTcot = new double[size];
+
+		// repeat calculations per quadrent
 		for (int i = 0; i < qSize; i++) {
 			assignTrigQuadrants(lTsin, i, Math.sin(x), new int[] {1, 1, -1, -1});
 			assignTrigQuadrants(lTcos, i, Math.cos(x), new int[] {1, -1, -1, 1});
@@ -27,7 +36,7 @@ public class Precomputed {
 			assignTrigQuadrants(lTtan, i, lTsin[i] * lTcsc[i]);
 			assignTrigQuadrants(lTcot, i, lTcos[i] * lTsec[i]);
 
-
+			// update x
 			x += change;
 		}
 	}
